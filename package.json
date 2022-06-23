@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && tap --ts dist/test/events.test.js",
+    "test": "tsc -p tsconfig.json && tap --ts --no-check-coverage dist/test/events.test.js",
     "start": "tsc -p tsconfig.json && node dist/src/server.js"
   },
   "repository": {
