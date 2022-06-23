@@ -23,10 +23,9 @@ jobs:
       - run: npm run build --if-present
       - run: docker-compose up -d db
 
-      - name: start db for sleep 120 sec
-        uses: mysql:5.7
-          with:
-            time: '120s'
+      - name: start db for sleep 60 sec
+        run: sleep 60s
+        shell: bash
 
       - name: testing
         run: npm test
