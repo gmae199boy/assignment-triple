@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=1
+      - MONGO_INITDB_ROOT_PASSWORD=1
+    restart: always
+    ports:
+      - 27017:27017
+  
+  server:
+    image: node:16.13.0
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - MONGODB_URL=mongodb://1:1@mongo:27017
+    restart: always
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - 8080:8080

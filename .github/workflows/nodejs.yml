@@ -1,0 +1,36 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [16.13.0]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: docker-compose up -d db
+
+      - name: start db for sleep 120 sec
+        uses: mysql:5.7
+          with:
+            time: '120s'
+
+      - name: testing
+        run: npm test
+        env:
+          DB_ADDRESS: ${{secrets.DB_ADDRESS}}
+          SERVER_ADDRESS: ${{secrets.SERVER_ADDRESS}}
+          SERVER_PORT: ${{secrets.SERVER_PORT}}
