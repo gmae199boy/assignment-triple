@@ -21,7 +21,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build --if-present
-      - run: docker-compose up -d db
+      - run: docker-compose -f docker/docker-compose.yml up -d db
 
       - name: start db for sleep 60 sec
         run: sleep 60s
